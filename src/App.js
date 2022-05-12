@@ -1,24 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import { Theme } from "./Context/Povider";
+import { Color } from "./Theme/Color";
+import Main from "./Pages/Main";
+import { useState } from "react";
+import ColorMode from "./Theme/ColorMode";
 
 function App() {
+  let [light, setLight] = useState(
+    !window.matchMedia("(prefers-color-scheme: dark)").matches
+  );
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Theme.Provider
+        value={{
+          mode: light ? "light" : "dark",
+          colorFunction: ColorMode,
+          changeTheme: setLight,
+        }}
+      >
+        <Main />
+      </Theme.Provider>
+    </>
   );
 }
 
